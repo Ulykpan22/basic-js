@@ -10,15 +10,67 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  * @example
  * 
- * repeater('STRING', { repeatTimes: 3, separator: '**', 
+ * repeater('STRING', { repeatTimes: 3, separator: '**',
  * addition: 'PLUS', additionRepeatTimes: 3, additionSeparator: '00' })
- * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
+ * => 'STRING PLUS00PLUS00PLUS ** STRING PLUS00PLUS00PLUS ** STRING PLUS00PLUS00PLUS'
  *
  */
-function repeater(/* str, options */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function repeater(str, options) {
+  let separator = options.separator,
+      repeatTimes = options.repeatTimes,
+      addition = options.addition,
+      additionSeparator = options.additionSeparator,
+      additionRepeatTimes = options.additionRepeatTimes;
+
+  if (typeof addition === 'undefined') {
+    addition = '';
+  }
+
+
+  if (typeof str !== 'string' || typeof addition !== 'string') {
+    str = '' + str;
+    addition = '' + addition;
+  }
+
+  if (!separator) {
+    separator = '+';
+  }
+
+  if (!additionSeparator) {
+    additionSeparator = '|';
+  }
+
+  if (!repeatTimes) {
+    repeatTimes = 0;
+  }
+
+  if (!additionRepeatTimes) {
+    additionRepeatTimes = 0;
+  }
+
+  let sumAddition = '';
+  for (let i = 1; i <= additionRepeatTimes; i++) {
+    console.log('additionRepeatTimes')
+    sumAddition = sumAddition + addition + (i === additionRepeatTimes ? '' : additionSeparator);
+  }
+  if (!sumAddition) {
+    sumAddition = addition;
+  }
+
+  let sumStr = '';
+  for (let i = 1; i <= repeatTimes; i++) {
+    console.log('repeatTimes')
+    sumStr = sumStr + str + sumAddition + (i === repeatTimes ? '' : separator);
+  }
+  if (!sumStr) {
+    sumStr = str + sumAddition;
+  }
+
+  return sumStr;
 }
+
+repeater('STRING', { separator: '**',
+  addition: 'PLUS',  additionSeparator: '00' });
 
 module.exports = {
   repeater
