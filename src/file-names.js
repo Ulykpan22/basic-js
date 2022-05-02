@@ -1,4 +1,5 @@
 const { NotImplementedError } = require('../extensions/index.js');
+const {truncateThreshold} = require("chai/lib/chai/config");
 
 /**
  * There's a list of file, since two files cannot have equal names,
@@ -15,9 +16,31 @@ const { NotImplementedError } = require('../extensions/index.js');
  * the output should be ["file", "file(1)", "image", "file(1)(1)", "file(2)"]
  *
  */
-function renameFiles(/* names */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function renameFiles(names) {
+  let obj = {};
+
+  return names.map(item => {
+    let count = 0;
+    if (item in obj) {
+      count = obj[item];
+    }
+
+    obj[item] = count + 1;
+
+    if (count === 0) {
+      return item;
+    }
+
+    for (let key in obj) {
+      if (key === item && obj[key] === count) {
+        count++;
+      }
+    }
+
+    obj[`${item}(${count})`] = 1;
+
+    return `${item}(${count})`;
+  });
 }
 
 module.exports = {
